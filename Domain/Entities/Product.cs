@@ -8,23 +8,30 @@ namespace Domain.Entities
 {
     public class Product
     {
-        public Product()
+        //For entity framework 
+        private Product()
         {
 
         }
-        public Product(ProductId productId, Price price, string name, string description)
+        public Product(ProductId productId,
+                       Price price,
+                       string name,
+                       string description)
         {
             ProductId = productId;
             Price = price;
             Name = name;
             Description = description;
+          
         }
+        public void SetImageUrl(string imageUrl)=>ImageUrl = imageUrl;
 
-        public ProductId ProductId { get;  set; }
-        public Price Price { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public CategoryId CategoryId { get; set; }
+        public ProductId ProductId { get;  private set; }
+        public Price Price { get; private set; }
+        public string Name { get;private set; }
+        public string Description { get;private set; }
+        public string ImageUrl { get; private set; }
+        public CategoryId CategoryId { get;private set; }
     }
     public record ProductId(Guid Id); 
     public record Price(string currency,decimal Value);

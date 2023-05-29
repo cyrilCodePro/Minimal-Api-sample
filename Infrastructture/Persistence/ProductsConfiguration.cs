@@ -26,6 +26,8 @@ namespace Infrastructture.Persistence
                 pricebuilder.Property(m => m.currency).HasMaxLength(50);
             });
             builder.Property(c => c.ProductId).HasMaxLength(200).IsRequired(true);
+
+            builder.Property(c => c.ImageUrl).HasMaxLength(300).IsRequired(true);
             builder.Property(c => c.CategoryId).HasConversion(categoryId => categoryId.Id, value => new CategoryId(value));
 
 
