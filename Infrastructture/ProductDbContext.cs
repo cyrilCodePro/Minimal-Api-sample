@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructture;
+namespace Infrastructure;
 
     public class ProductDbContext : DbContext
     {

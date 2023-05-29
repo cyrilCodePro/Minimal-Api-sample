@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 
-using Infrastructture;
+using Infrastructure;
 
 using MediatR;
 

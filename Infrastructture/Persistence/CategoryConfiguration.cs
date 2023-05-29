@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructture.Persistence
+namespace Infrastructure.Persistence
 {
     public class CategoryConfigurationL : IEntityTypeConfiguration<Category>
     {

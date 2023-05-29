@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 
-using Infrastructture;
+using Infrastructure;
 
 using MediatR;
 
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Querries
+namespace Application.Queries
 {
     public record GetCategories : IRequest<List<Category>>;
     public class GetCategoriesHandler : IRequestHandler<GetCategories, List<Category>>
