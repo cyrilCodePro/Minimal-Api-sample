@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructture.Persistence
+namespace Infrastructure.Persistence
 {
     public class ProductsConfiguration : IEntityTypeConfiguration<Product>
     {
@@ -27,7 +27,7 @@ namespace Infrastructture.Persistence
             });
             builder.Property(c => c.ProductId).HasMaxLength(200).IsRequired(true);
 
-            builder.Property(c => c.ImageUrl).HasMaxLength(300).IsRequired(true);
+            builder.Property(c => c.ImageUrl).HasMaxLength(300).IsRequired(false);
             builder.Property(c => c.CategoryId).HasConversion(categoryId => categoryId.Id, value => new CategoryId(value));
 
 

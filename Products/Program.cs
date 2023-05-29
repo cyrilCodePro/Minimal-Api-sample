@@ -1,4 +1,4 @@
-using Infrastructture;
+using Infrastructure;
 
 using Products;
 using Application;
@@ -17,13 +17,15 @@ var app = builder.Build();
 
 var sampleTodos = TodoGenerator.GenerateTodos().ToArray();
 
-var todosApi = app.MapGroup("/todos");
-todosApi.MapGet("/", () => sampleTodos);
-todosApi.MapGet("/{id}", (int id) =>
-    sampleTodos.FirstOrDefault(a => a.Id == id) is { } todo
-        ? Results.Ok(todo)
-        : Results.NotFound());
-var category = app.MapGroup("categories").AddCategoriesApi().WithTags("Product Categories");
+//var todosApi = app.MapGroup("/todos");
+//todosApi.MapGet("/", () => sampleTodos);
+//todosApi.MapGet("/{id}", (int id) =>
+//    sampleTodos.FirstOrDefault(a => a.Id == id) is { } todo
+//        ? Results.Ok(todo)
+//        : Results.NotFound());
+var category = app.MapGroup("categories").
+    AddCategoriesApi()
+    .WithTags("Product Categories");
 
 app.UseSwagger();
 app.UseSwaggerUI(options =>

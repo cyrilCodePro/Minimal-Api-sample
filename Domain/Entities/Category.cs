@@ -8,6 +8,7 @@ namespace Domain.Entities
 {
     public class Category
     {
+        //For Entity Framework
         private Category() { }
         public CategoryId CategoryId { get; private set; }
         public string Name { get; private set; }

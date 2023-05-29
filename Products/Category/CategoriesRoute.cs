@@ -1,5 +1,5 @@
 ﻿using Application.Commands.Categories;
-using Application.Querries;
+using Application.Queries;
 
 using Domain.Entities;
 
@@ -37,5 +37,6 @@ namespace Products
             var result = await sender.Send(new GetCategories());
             return TypedResults.Ok(result);
         }
+
     }
 }
