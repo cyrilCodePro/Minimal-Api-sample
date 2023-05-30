@@ -18,12 +18,7 @@ namespace Application.Queries
     public class GetProductHandler : IRequestHandler<GetProduct, Product?>
     {
         private readonly ProductDbContext productDbContext;
-        private static readonly Func<ProductDbContext, ProductId, Task<Product?>> GetProduct = 
-            EF.CompileAsyncQuery(
-                (ProductDbContext context, ProductId productId) 
-                => context.Products.SingleOrDefault(i => i.ProductId == productId)
-                );
-
+     
         public GetProductHandler(ProductDbContext productDbContext)
         {
             this.productDbContext = productDbContext;
@@ -31,7 +26,7 @@ namespace Application.Queries
 
         public async Task<Product?> Handle(GetProduct request, CancellationToken cancellationToken)
         {
-            return await GetProduct(productDbContext, request.ProductId);
+            return await productDbContext.Products.SingleOrDefaultAsync(i => i.ProductId == request.ProductId);
         }
     }
 }

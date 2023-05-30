@@ -18,16 +18,21 @@ namespace Application.Queries
     public class GetCategoriesHandler : IRequestHandler<GetCategories, List<Category>>
     {
         private readonly ProductDbContext productDbContext;
-        private readonly static Func<ProductDbContext ,Task<List<Category>>> GetCategories=EF.CompileAsyncQuery((ProductDbContext productDbContext)=>productDbContext.Categories.ToList());
+        private readonly static Func<ProductDbContext ,IAsyncEnumerable<Category>> GetCategories=EF.CompileAsyncQuery((ProductDbContext productDbContext)=>productDbContext.Categories);
 
         public GetCategoriesHandler(ProductDbContext productDbContext)
         {
             this.productDbContext = productDbContext;
         }
 
-        public Task<List<Category>> Handle(GetCategories request, CancellationToken cancellationToken)
+        public async Task<List<Category>> Handle(GetCategories request, CancellationToken cancellationToken)
         {
-            return GetCategories(productDbContext);
+            List<Category> categories = new();
+             await foreach(var item in GetCategories(productDbContext))
+            {
+                categories.Add(item);
+            }
+             return categories;
         }
     }
 }

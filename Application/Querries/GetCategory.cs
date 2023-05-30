@@ -18,8 +18,8 @@ namespace Application.Queries
     public class GetCategoryHandler : IRequestHandler<GetCategory, Category?>
     {
         private readonly ProductDbContext _productDbContext;
-        private static readonly Func<ProductDbContext, GetCategory, Task<Category>> GetCategoryCompiledQuery =
-            EF.CompileAsyncQuery((ProductDbContext context, GetCategory category) => context.Categories.SingleOrDefault(c => c.CategoryId == category.CategoryId));
+        private static readonly Func<ProductDbContext, GetCategory, IAsyncEnumerable<Category>> GetCategoryCompiledQuery =
+            EF.CompileAsyncQuery((ProductDbContext context, GetCategory category) => from  s in context.Categories where s.CategoryId==category.CategoryId select s);
      
 
         public GetCategoryHandler(ProductDbContext productDbContext)
@@ -29,7 +29,12 @@ namespace Application.Queries
 
         public  async Task<Category?> Handle(GetCategory request, CancellationToken cancellationToken)
         {
-            return await GetCategoryCompiledQuery(_productDbContext, request);
+            List<Category> categories = new();
+             await foreach(var item in GetCategoryCompiledQuery(_productDbContext, request))
+            {
+                categories.Add(item);
+            }
+            return categories.SingleOrDefault();
         }
     }
 
