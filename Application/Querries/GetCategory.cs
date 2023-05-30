@@ -26,7 +26,7 @@ namespace Application.Queries
 
         public  async Task<Category?> Handle(GetCategory request, CancellationToken cancellationToken)
         {
-            return await _productDbContext.Categories.FirstOrDefaultAsync(req => req.CategoryId == req.CategoryId, cancellationToken: cancellationToken);
+            return await _productDbContext.Categories.SingleOrDefaultAsync(req => req.CategoryId == req.CategoryId, cancellationToken: cancellationToken);
         }
     }
 

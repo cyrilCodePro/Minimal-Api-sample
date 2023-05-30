@@ -18,6 +18,7 @@ namespace Application.Queries
     public class GetCategoriesHandler : IRequestHandler<GetCategories, List<Category>>
     {
         private readonly ProductDbContext productDbContext;
+        private readonly static Func<ProductDbContext ,Task<List<Category>>> GetCategories=EF.CompileAsyncQuery((ProductDbContext productDbContext)=>productDbContext.Categories.ToList());
 
         public GetCategoriesHandler(ProductDbContext productDbContext)
         {
@@ -26,7 +27,7 @@ namespace Application.Queries
 
         public Task<List<Category>> Handle(GetCategories request, CancellationToken cancellationToken)
         {
-            return productDbContext.Categories.ToListAsync(cancellationToken);
+            return GetCategories(productDbContext);
         }
     }
 }

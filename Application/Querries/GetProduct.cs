@@ -18,6 +18,7 @@ namespace Application.Queries
     public class GetProductHandler : IRequestHandler<GetProduct, Product>
     {
         private readonly ProductDbContext productDbContext;
+        private static readonly Func<ProductDbContext,GetProduct,Task<Product>> GetProduct=EF.CompileAsyncQuery((ProductDbContext context,GetProduct Product) => context.Products.SingleOrDefault(i=>i.ProductId==Product.ProductId))
 
         public GetProductHandler(ProductDbContext productDbContext)
         {
@@ -26,7 +27,7 @@ namespace Application.Queries
 
         public async Task<Product> Handle(GetProduct request, CancellationToken cancellationToken)
         {
-            return await productDbContext.Products.FirstOrDefaultAsync(i => i.ProductId == request.ProductId, cancellationToken: cancellationToken);
+            return await GetProduct(productDbContext, request);
         }
     }
 }
