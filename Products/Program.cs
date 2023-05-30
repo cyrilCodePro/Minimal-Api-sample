@@ -36,6 +36,8 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
     options.RoutePrefix = string.Empty;
 });
+
+#region Run all Pending Migrations
 using (var scope = app.Services.CreateScope())
 {
     var ctx = scope.ServiceProvider.GetRequiredService<ProductDbContext>();
@@ -46,6 +48,7 @@ using (var scope = app.Services.CreateScope())
         migrator?.Migrate(migration);
     }
 }
+#endregion
 
 
 app.Run();
