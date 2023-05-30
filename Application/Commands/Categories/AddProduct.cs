@@ -26,8 +26,8 @@ namespace Application.Commands.Categories
         public async Task<ProductId> Handle(AddProduct request, CancellationToken cancellationToken)
         {
             var productId=new ProductId(Guid.NewGuid());
-            await productDbContext.Products.AddAsync(new Product ( productId, request.Price,  new CategoryId(request.CategoryId), request.name,request.description)).ConfigureAwait(false);
-            await productDbContext.SaveChangesAsync();
+            await productDbContext.Products.AddAsync(new Product(productId, request.Price, new CategoryId(request.CategoryId), request.name, request.description), cancellationToken).ConfigureAwait(false);
+            await productDbContext.SaveChangesAsync(cancellationToken);
             return productId;
         }
     }
