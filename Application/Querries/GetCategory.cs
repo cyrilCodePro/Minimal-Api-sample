@@ -18,6 +18,9 @@ namespace Application.Queries
     public class GetCategoryHandler : IRequestHandler<GetCategory, Category?>
     {
         private readonly ProductDbContext _productDbContext;
+        private static readonly Func<ProductDbContext, GetCategory, Task<Category>> GetCategoryCompiledQuery =
+            EF.CompileAsyncQuery((ProductDbContext context, GetCategory category) => context.Categories.SingleOrDefault(c => c.CategoryId == category.CategoryId));
+     
 
         public GetCategoryHandler(ProductDbContext productDbContext)
         {
@@ -26,7 +29,7 @@ namespace Application.Queries
 
         public  async Task<Category?> Handle(GetCategory request, CancellationToken cancellationToken)
         {
-            return await _productDbContext.Categories.SingleOrDefaultAsync(req => req.CategoryId == req.CategoryId, cancellationToken: cancellationToken);
+            return await GetCategoryCompiledQuery(_productDbContext, request);
         }
     }
 

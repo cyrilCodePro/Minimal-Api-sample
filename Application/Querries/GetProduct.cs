@@ -14,20 +14,24 @@ using System.Threading.Tasks;
 
 namespace Application.Queries
 {
-    public record GetProduct(ProductId ProductId): IRequest<Product>;
-    public class GetProductHandler : IRequestHandler<GetProduct, Product>
+    public record GetProduct(ProductId ProductId): IRequest<Product?>;
+    public class GetProductHandler : IRequestHandler<GetProduct, Product?>
     {
         private readonly ProductDbContext productDbContext;
-        private static readonly Func<ProductDbContext,GetProduct,Task<Product>> GetProduct=EF.CompileAsyncQuery((ProductDbContext context,GetProduct Product) => context.Products.SingleOrDefault(i=>i.ProductId==Product.ProductId))
+        private static readonly Func<ProductDbContext, ProductId, Task<Product?>> GetProduct = 
+            EF.CompileAsyncQuery(
+                (ProductDbContext context, ProductId productId) 
+                => context.Products.SingleOrDefault(i => i.ProductId == productId)
+                );
 
         public GetProductHandler(ProductDbContext productDbContext)
         {
             this.productDbContext = productDbContext;
         }
 
-        public async Task<Product> Handle(GetProduct request, CancellationToken cancellationToken)
+        public async Task<Product?> Handle(GetProduct request, CancellationToken cancellationToken)
         {
-            return await GetProduct(productDbContext, request);
+            return await GetProduct(productDbContext, request.ProductId);
         }
     }
 }
