@@ -15,6 +15,7 @@ namespace Domain.Entities
         }
         public Product(ProductId productId,
                        Price price,
+                       CategoryId categoryId,
                        string name,
                        string description)
         {
@@ -22,6 +23,7 @@ namespace Domain.Entities
             Price = price;
             Name = name;
             Description = description;
+            CategoryId = categoryId;
           
         }
         public void SetImageUrl(string imageUrl)=>ImageUrl = imageUrl;

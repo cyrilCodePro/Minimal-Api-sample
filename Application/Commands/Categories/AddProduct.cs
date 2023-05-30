@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.Commands.Categories
 {
-    public record AddProduct(string ProdutName,Price Price, Guid CategoryId): IRequest<ProductId>;
+    public record AddProduct(string ProdutName,Price Price, Guid CategoryId,string name,string description): IRequest<ProductId>;
 
     public class AddProductHandler : IRequestHandler<AddProduct, ProductId>
     {
@@ -26,7 +26,7 @@ namespace Application.Commands.Categories
         public async Task<ProductId> Handle(AddProduct request, CancellationToken cancellationToken)
         {
             var productId=new ProductId(Guid.NewGuid());
-            await productDbContext.Products.AddAsync(new Product { ProductId = productId, Name = request.ProdutName, Price = request.Price, CategoryId = new CategoryId(request.CategoryId) }).ConfigureAwait(false);
+            await productDbContext.Products.AddAsync(new Product ( productId, request.Price,  new CategoryId(request.CategoryId), request.name,request.description)).ConfigureAwait(false);
             await productDbContext.SaveChangesAsync();
             return productId;
         }

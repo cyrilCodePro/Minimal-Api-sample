@@ -28,6 +28,7 @@ namespace Infrastructure.Persistence
             builder.Property(c => c.ProductId).HasMaxLength(200).IsRequired(true);
 
             builder.Property(c => c.ImageUrl).HasMaxLength(300).IsRequired(false);
+            builder.Property(c => c.Description).HasMaxLength(700).IsRequired(false);
             builder.Property(c => c.CategoryId).HasConversion(categoryId => categoryId.Id, value => new CategoryId(value));
 
 
