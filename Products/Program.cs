@@ -5,6 +5,7 @@ using Application;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Products.Products;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -26,6 +27,7 @@ var sampleTodos = TodoGenerator.GenerateTodos().ToArray();
 var category = app.MapGroup("categories").
     AddCategoriesApi()
     .WithTags("Product Categories");
+var product = app.MapGroup("products").AddProductsApp().WithTags("Products ");
 
 app.UseSwagger();
 app.UseSwaggerUI(options =>

@@ -26,7 +26,7 @@ namespace Application.Queries
 
         public async Task<Product> Handle(GetProduct request, CancellationToken cancellationToken)
         {
-            return await productDbContext.Products.FirstOrDefaultAsync(i =>i.ProductId == request.ProductId, cancellationToken: cancellationToken);
+            return await productDbContext.Products.FirstOrDefaultAsync(i => i.ProductId == request.ProductId, cancellationToken: cancellationToken);
         }
     }
 }
