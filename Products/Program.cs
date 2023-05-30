@@ -8,26 +8,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Products.Products;
 
 var builder = WebApplication.CreateSlimBuilder(args);
+
+//Register services
+#region Service Registration
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplicationService();
 builder.Services.AddEndpointsApiExplorer();
 
+
 builder.Services.AddSwaggerGen();
+#endregion
 
 var app = builder.Build();
+#region Api Registration
 
-var sampleTodos = TodoGenerator.GenerateTodos().ToArray();
-
-//var todosApi = app.MapGroup("/todos");
-//todosApi.MapGet("/", () => sampleTodos);
-//todosApi.MapGet("/{id}", (int id) =>
-//    sampleTodos.FirstOrDefault(a => a.Id == id) is { } todo
-//        ? Results.Ok(todo)
-//        : Results.NotFound());
 var category = app.MapGroup("categories").
     AddCategoriesApi()
     .WithTags("Product Categories");
-var product = app.MapGroup("products").AddProductsApp().WithTags("Products ");
+var product = app.MapGroup("products")
+    .AddProductsApp()
+    .WithTags("Products ");
+#endregion
 
 app.UseSwagger();
 app.UseSwaggerUI(options =>
