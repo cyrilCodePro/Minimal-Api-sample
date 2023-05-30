@@ -22,21 +22,15 @@ namespace Products
         }
         public static async Task<Created>CreateCategory(AddCategory addCategory, ISender sender)
         {
-          var result=await  sender.Send(addCategory);
+          var result= await sender.Send(addCategory);
 
             return TypedResults.Created($"{result.Id}");
             
         }
-        public static async Task<Ok<Category>> GetCategory(Guid id ,ISender sender)
-        {
-            var result = await sender.Send(new GetCategory(new CategoryId(id)));
-            return TypedResults.Ok(result);
-        }
+        public static async Task<Ok<Category>> GetCategory(Guid id, ISender sender) 
+            => TypedResults.Ok(await sender.Send(new GetCategory(new CategoryId(id))));
         public static async Task<Ok<List<Category>>> GetCategories(ISender sender)
-        {
-            var result = await sender.Send(new GetCategories());
-            return TypedResults.Ok(result);
-        }
+            => TypedResults.Ok(await sender.Send(new GetCategories()));
 
     }
 }
